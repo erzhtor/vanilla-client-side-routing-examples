@@ -11,7 +11,7 @@ function Router() {
     (typeof match === "function" && match(path)) ||
     (typeof match === "string" && match === path);
 
-  const handleListener = ([_, match, onEnter, onLeave]) => {
+  const handleListener = ({ match, onEnter, onLeave }) => {
     const args = { currentPath, previousPath, state: history.state };
 
     isMatch(match, currentPath) && onEnter(args);
@@ -39,8 +39,9 @@ function Router() {
   const on = (match, onEnter, onLeave) => {
     const id = generateId();
 
-    listeners.push([id, match, onEnter, onLeave]);
-    handleListener([id, match, onEnter], onLeave);
+    const listener = { id, match, onEnter, onLeave };
+    listeners.push(listener);
+    handleListener(listener);
 
     return () => unsubscribe(id);
   };
@@ -72,7 +73,7 @@ const unsubscribeAll = router.on(/.*/, createLogger("/.*"));
 const unsubscribeContacts = router.on(
   (pathname) => pathname === "/contacts",
   createLogger("/contacts"),
-  createLogger("/contacts", false)
+  createLogger("leaving /contacts", false)
 );
 const unsubscribeAbout = router.on("/about", createLogger("/about"));
 const unsubscribeAboutUs = router.on("/about/us", createLogger("/about/us"));

@@ -67,7 +67,7 @@ const router = Router();
 
 router.on(/.*/, createLogger("/.*"));
 router.on((path) => path === "/contacts", createLogger("/contacts"));
-router.on("/about", createLogger("/about"));
+router.on("/about/:id", createLogger("/about"));
 router.on("/about/us", createLogger("/about/us"));
 
 document.body.addEventListener("click", (event) => {

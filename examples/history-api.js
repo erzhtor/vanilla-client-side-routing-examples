@@ -22,7 +22,7 @@ document.body.addEventListener("click", (event) => {
   }
   event.preventDefault();
   let url = event.target.getAttribute("href");
-  history.pushState({ foo: "bar" }, url, url);
+  history.pushState({ foo: "bar" }, document.title, url);
   // history.replaceState({ foo: "bar" }, url, url);
   render(); // 👈
 });

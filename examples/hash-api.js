@@ -15,7 +15,7 @@ window.addEventListener("hashchange", () => {
   render(); // 👈
 });
 
-// 2. Catch <a> tag clicks
+// 3. Catch <a> tag clicks
 document.body.addEventListener("click", (event) => {
   if (!event.target.matches("a")) {
     return;

@@ -25,8 +25,8 @@ const router = Router();
 const unsubscribe = router.on(/.*/, createLogger("/.*"));
 router.on(
   (path) => path === "/contacts",
-  createLogger("/contacts"),
-  createLogger("[leaving] /contacts", false)
+  createLogger("/contacts"), // onEnter
+  createLogger("[leaving] /contacts", false) // onLeave
 );
 router.on("/about", createLogger("/about"));
 router.on("/about/us", createLogger("/about/us"));

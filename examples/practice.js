@@ -2,8 +2,12 @@
 
 /**
  * TODO: modify router.js to support
- * 1. onLeave callback
- * 2. unsubscribe function
+ * 1. unsubscribe function.
+ *    Hint: inside Router.go function return unsubscribe function,
+ *          which will remove listener by id
+ * 2. onLeave callback
+ *    Hint: Add 3rd 'onLeave' parameter to Router.on + save in listener object
+ *          Check in Router.handleListener if previousPath matches listener
  */
 
 const render = (content) =>

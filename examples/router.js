@@ -11,11 +11,10 @@ function Router() {
     (typeof match === "function" && match(path)) ||
     (typeof match === "string" && match === path);
 
-  const handleListener = ({ match, onEnter, onLeave }) => {
+  const handleListener = ({ match, onEnter }) => {
     const args = { currentPath, previousPath, state: history.state };
 
     isMatch(match, currentPath) && onEnter(args);
-    isMatch(match, previousPath) && onLeave && onLeave(args);
   };
 
   const handleAllListeners = () => listeners.forEach(handleListener);
@@ -32,18 +31,12 @@ function Router() {
     return id;
   };
 
-  const unsubscribe = (id) => {
-    listeners = listeners.filter((listener) => listener[0] !== id);
-  };
-
-  const on = (match, onEnter, onLeave) => {
+  const on = (match, onEnter) => {
     const id = generateId();
 
-    const listener = { id, match, onEnter, onLeave };
+    const listener = { id, match, onEnter };
     listeners.push(listener);
     handleListener(listener);
-
-    return () => unsubscribe(id);
   };
 
   const go = (url, state) => {
@@ -69,14 +62,10 @@ const createLogger = (title, attach = true) => (...args) => {
 
 const router = Router();
 
-const unsubscribeAll = router.on(/.*/, createLogger("/.*"));
-const unsubscribeContacts = router.on(
-  (pathname) => pathname === "/contacts",
-  createLogger("/contacts"),
-  createLogger("leaving /contacts", false)
-);
-const unsubscribeAbout = router.on("/about", createLogger("/about"));
-const unsubscribeAboutUs = router.on("/about/us", createLogger("/about/us"));
+router.on(/.*/, createLogger("/.*"));
+router.on((pathname) => pathname === "/contacts", createLogger("/contacts"));
+router.on("/about", createLogger("/about"));
+router.on("/about/us", createLogger("/about/us"));
 
 document.body.addEventListener("click", (event) => {
   if (!event.target.matches("a")) {
@@ -85,5 +74,4 @@ document.body.addEventListener("click", (event) => {
   event.preventDefault();
   let url = event.target.getAttribute("href");
   router.go(url);
-  unsubscribeAll();
 });

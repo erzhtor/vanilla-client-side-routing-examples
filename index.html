@@ -25,19 +25,7 @@
     <script src="/examples/router.js"></script>
     <script>
       /* Debug */
-      window.addEventListener("load", () =>
-        console.log(`Debugger: page loaded ${Date.now()}`)
-      );
-
-      window.addEventListener("popstate", (event) => {
-        // or window.onpopstate
-        console.log(
-          "Debugger: location: " +
-            document.location +
-            ", state: " +
-            JSON.stringify(event.state)
-        );
-      });
+      window.addEventListener("load", () => console.log(`PAGE FULLY RELOADED`));
     </script>
   </body>
 </html>

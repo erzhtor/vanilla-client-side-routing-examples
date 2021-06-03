@@ -53,17 +53,20 @@ function Router() {
 }
 
 // USAGE
-const createLogger = (title, attach = true) => (...args) => {
-  console.log(`${title}, args=${JSON.stringify(args)}`);
-  if (attach) {
-    document.getElementById("root").innerHTML = `<h2>${title}</h2>`;
+const render = (content) =>
+  (document.getElementById("root").innerHTML = `<h2>${content}</h2>`);
+
+const createLogger = (content, shouldRender = true) => (...args) => {
+  console.log(`LOGGER: ${content} args=${JSON.stringify(args)}`);
+  if (shouldRender) {
+    render(content);
   }
 };
 
 const router = Router();
 
 router.on(/.*/, createLogger("/.*"));
-router.on((pathname) => pathname === "/contacts", createLogger("/contacts"));
+router.on((path) => path === "/contacts", createLogger("/contacts"));
 router.on("/about", createLogger("/about"));
 router.on("/about/us", createLogger("/about/us"));
 

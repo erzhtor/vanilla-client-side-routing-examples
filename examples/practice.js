@@ -18,11 +18,11 @@ const createLogger = (content, shouldRender = true) => (...args) => {
 
 const router = Router();
 
-const unsubscribeAll = router.on(/.*/, createLogger("/.*"));
+const unsubscribe = router.on(/.*/, createLogger("/.*"));
 router.on(
-  (pathname) => pathname === "/contacts",
+  (path) => path === "/contacts",
   createLogger("/contacts"),
-  createLogger("leaving /contacts", false)
+  createLogger("[leaving] /contacts", false)
 );
 router.on("/about", createLogger("/about"));
 router.on("/about/us", createLogger("/about/us"));
@@ -34,5 +34,5 @@ document.body.addEventListener("click", (event) => {
   event.preventDefault();
   let url = event.target.getAttribute("href");
   router.go(url);
-  unsubscribeAll();
+  unsubscribe();
 });

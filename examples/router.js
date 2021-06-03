@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+// IMPLEMENTATION
 function Router() {
   let listeners = [];
   let currentPath = location.pathname;
@@ -57,20 +58,24 @@ function Router() {
   return { on, go };
 }
 
+// USAGE
 const createLogger = (title, attach = true) => (...args) => {
   console.log(`${title}, args=${JSON.stringify(args)}`);
-  document.getElementById("root").innerHTML = `<h2>${title}</h2>`;
+  if (attach) {
+    document.getElementById("root").innerHTML = `<h2>${title}</h2>`;
+  }
 };
 
 const router = Router();
+
 const unsubscribeAll = router.on(/.*/, createLogger("/.*"));
-router.on(
+const unsubscribeContacts = router.on(
   (pathname) => pathname === "/contacts",
   createLogger("/contacts"),
-  createLogger("leaving /contacts", false)
+  createLogger("/contacts", false)
 );
-router.on("/about", createLogger("/about"));
-router.on("/about/us", createLogger("/about/us"));
+const unsubscribeAbout = router.on("/about", createLogger("/about"));
+const unsubscribeAboutUs = router.on("/about/us", createLogger("/about/us"));
 
 document.body.addEventListener("click", (event) => {
   if (!event.target.matches("a")) {
